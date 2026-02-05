@@ -33,7 +33,7 @@ for dataset in datasets:
         .csv(dataset["input"])
     )
 
-    # Partitionnement par date uniquement pour celui qui en a une
+    # Partitionnement par date uniquement pour le dataset qui en contient
     if dataset["partition"]:
 
         df2 = (
