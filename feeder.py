@@ -20,7 +20,7 @@ datasets = [
     {
         "name": "products",
         "input": "/opt/pipeline/data/products.csv",
-        "output": "hdfs://namenode:9000/data/raw/products",
+        "output": "hdfs://namenode:9000/data/raw/products_partitioned",
         "partition": False,
     },
 ]
@@ -57,7 +57,6 @@ for dataset in datasets:
             .parquet(dataset["output"])
         )
     else:
-        # Pour les autres : pas de partitionnement par date
         df.cache()
         # time.sleep(60)
 
