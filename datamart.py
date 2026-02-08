@@ -34,7 +34,7 @@ sales_data = (
     .withColumn("Amount", F.col("Quantity") * F.col("UnitPrice"))
 )
 
-### 1. Ventes par pays ###
+### Ventes par pays ###
 sales_per_country = (
     # On prend uniquement les ventes non annulées
     sales_data.filter(~F.col("IsCancel"))
@@ -54,7 +54,9 @@ sales_per_country.write.jdbc(
     properties=postgres_properties,
 )
 
-### 2. Top produits ###
+spark.catalog.clearCache()
+
+### Top produits ###
 top_products = (
     sales_data.filter(~F.col("IsCancel"))
     .groupBy("StockCode", "Description")
@@ -73,7 +75,7 @@ top_products.write.jdbc(
     properties=postgres_properties,
 )
 
-### 3. Produits problématiques ###
+### Produits problématiques ###
 return_products = (
     # On récupère les commandes annulées ou avec une quantité négative (ça correspond à des retours)
     sales_data.filter((F.col("Quantity") < 0) | F.col("IsCancel"))
@@ -93,7 +95,9 @@ return_products.write.jdbc(
     properties=postgres_properties,
 )
 
-### 4. Ventes par période ###
+spark.catalog.clearCache()
+
+### Ventes par période ###
 sales_by_period = (
     sales_data.filter(~F.col("IsCancel"))
     .groupBy("year", "month", "day")
@@ -111,3 +115,5 @@ sales_by_period.write.jdbc(
     mode="overwrite",
     properties=postgres_properties,
 )
+
+spark.catalog.clearCache()
