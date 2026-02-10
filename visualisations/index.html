@@ -8,10 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </head>
 <body>
-    <!-- Section de connexion -->
     <div id="loginSection" class="login-container">
         <div class="login-card">
-            <h1>🔐 Connexion</h1>
+            <h1>Connexion</h1>
             <p>Accédez au tableau de bord analytique</p>
             <input type="text" id="username" placeholder="Nom d'utilisateur" value="admin">
             <input type="password" id="password" placeholder="Mot de passe" value="admin">
@@ -20,18 +19,15 @@
         </div>
     </div>
 
-    <!-- Dashboard principal -->
     <div id="dashboardSection" style="display: none;">
-        <!-- En-tête -->
         <header>
-            <h1>📊 Dashboard Analytics E-commerce</h1>
+            <h1>Dashboard Analytics E-commerce</h1>
             <div class="user-info">
                 <span id="userName"></span>
                 <button onclick="logout()" class="btn-logout">Déconnexion</button>
             </div>
         </header>
 
-        <!-- Navigation -->
         <nav class="tabs">
             <button class="tab-btn active" onclick="scrollToSection('overview')">Vue d'ensemble</button>
             <button class="tab-btn" onclick="scrollToSection('countries')">Pays</button>
@@ -40,7 +36,6 @@
             <button class="tab-btn" onclick="scrollToSection('period')">Périodes</button>
         </nav>
 
-        <!-- ONGLET 1: Vue d'ensemble -->
         <div id="overview-tab" class="section">
             <div class="stats-grid">
                 <div class="stat-card">
@@ -62,10 +57,9 @@
             </div>
         </div>
 
-        <!-- ONGLET 2: Ventes par pays -->
         <div id="countries-tab" class="section">
             <div class="chart-container">
-                <h2>🌍 Ventes par Pays (Top 15)</h2>
+                <h2>Ventes par Pays (Top 15)</h2>
                 <canvas id="countriesChart"></canvas>
             </div>
             <div class="table-container">
@@ -85,10 +79,9 @@
             </div>
         </div>
 
-        <!-- ONGLET 3: Top produits -->
         <div id="products-tab" class="section">
             <div class="chart-container">
-                <h2>📦 Top 15 Produits par Revenus</h2>
+                <h2>Top 15 Produits en fonction des revenus</h2>
                 <canvas id="productsChart"></canvas>
             </div>
             <div class="table-container">
@@ -109,10 +102,9 @@
             </div>
         </div>
 
-        <!-- ONGLET 4: Produits retournés -->
         <div id="returns-tab" class="section">
             <div class="chart-container">
-                <h2>⚠️ Top 15 Produits Retournés (Pertes)</h2>
+                <h2>Top 15 Produits Retournés (Pertes)</h2>
                 <canvas id="returnsChart"></canvas>
             </div>
             <div class="table-container">
@@ -133,7 +125,6 @@
             </div>
         </div>
 
-        <!-- ONGLET 5: Ventes par période -->
         <div id="period-tab" class="section">
             <div class="filters">
                 <label>Année:
@@ -165,7 +156,7 @@
                 <button onclick="clearPeriodFilters()">Réinitialiser</button>
             </div>
             <div class="chart-container">
-                <h2>📅 Ventes par Période (Top 30 jours)</h2>
+                <h2>Ventes par Période (Top 30 jours)</h2>
                 <canvas id="periodChart"></canvas>
             </div>
             <div class="table-container">

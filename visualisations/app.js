@@ -2,8 +2,6 @@ const API_BASE = 'http://localhost:8000/api/v1';
 let token = null;
 let charts = {};
 
-// ============= AUTHENTICATION =============
-
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -30,7 +28,7 @@ async function login() {
                 document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('dashboardSection').style.display = 'block';
                 document.getElementById('userName').textContent = username;
-                loadAllData(); // Charge TOUT au démarrage
+                loadAllData();
             }, 500);
         } else {
             statusDiv.innerHTML = '<div class="error">✗ Identifiants incorrects</div>';
@@ -48,7 +46,6 @@ function logout() {
     charts = {};
 }
 
-// ============= NAVIGATION =============
 
 function scrollToSection(sectionId) {
     const element = document.getElementById(`${sectionId}-tab`);
@@ -56,12 +53,9 @@ function scrollToSection(sectionId) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
-    // Update active button
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
 }
-
-// ============= API HELPER =============
 
 async function fetchAPI(endpoint) {
     const response = await fetch(`${API_BASE}${endpoint}`, {
@@ -81,8 +75,6 @@ async function fetchAPI(endpoint) {
     return response.json();
 }
 
-// ============= LOAD ALL DATA =============
-
 async function loadAllData() {
     await loadOverview();
     await loadCountries();
@@ -90,8 +82,6 @@ async function loadAllData() {
     await loadReturns();
     await loadPeriod();
 }
-
-// ============= OVERVIEW =============
 
 async function loadOverview() {
     try {
@@ -110,8 +100,6 @@ async function loadOverview() {
         console.error('Erreur chargement vue d\'ensemble:', error);
     }
 }
-
-// ============= COUNTRIES =============
 
 async function loadCountries() {
     await loadCountriesChart();
@@ -160,7 +148,6 @@ async function loadCountriesChart() {
         console.error('Erreur chargement graphique pays:', error);
     }
 }
-
 async function loadCountriesTable(page) {
     try {
         const data = await fetchAPI(`/sales_per_country?page=${page}&page_size=20`);
@@ -180,8 +167,6 @@ async function loadCountriesTable(page) {
         console.error('Erreur chargement table pays:', error);
     }
 }
-
-// ============= PRODUCTS =============
 
 async function loadProducts() {
     await loadProductsChart();
@@ -255,8 +240,6 @@ async function loadProductsTable(page) {
     }
 }
 
-// ============= RETURNS =============
-
 async function loadReturns() {
     await loadReturnsChart();
     await loadReturnsTable(1);
@@ -328,8 +311,6 @@ async function loadReturnsTable(page) {
         console.error('Erreur chargement table retours:', error);
     }
 }
-
-// ============= PERIOD =============
 
 async function loadPeriod() {
     await loadPeriodChart();
@@ -453,8 +434,6 @@ function updatePagination(type, data, currentPage) {
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-// ============= EVENT LISTENERS =============
 
 document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');

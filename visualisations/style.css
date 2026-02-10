@@ -11,7 +11,6 @@ body {
     color: #333;
 }
 
-/* LOGIN */
 .login-container {
     display: flex;
     justify-content: center;
@@ -89,7 +88,6 @@ body {
     color: #0a0;
 }
 
-/* HEADER */
 header {
     background: white;
     padding: 20px 30px;
@@ -124,7 +122,6 @@ header h1 {
     background: #c82333;
 }
 
-/* TABS */
 .tabs {
     background: white;
     display: flex;
@@ -154,7 +151,6 @@ header h1 {
     color: white;
 }
 
-/* TAB CONTENT */
 .section {
     display: none;
     padding: 30px;
@@ -166,7 +162,6 @@ header h1 {
     display: block;
 }
 
-/* STATS GRID */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -199,7 +194,6 @@ header h1 {
     text-transform: uppercase;
 }
 
-/* CHART CONTAINER */
 .chart-container {
     background: white;
     padding: 30px;
@@ -217,7 +211,6 @@ canvas {
     max-height: 400px;
 }
 
-/* TABLE */
 .table-container {
     background: white;
     padding: 30px;
@@ -251,7 +244,6 @@ tbody tr:hover {
     background: #f5f5f5;
 }
 
-/* PAGINATION */
 .pagination {
     display: flex;
     justify-content: center;
@@ -279,7 +271,6 @@ tbody tr:hover {
     background: #764ba2;
 }
 
-/* FILTERS */
 .filters {
     background: white;
     padding: 20px;
@@ -324,7 +315,6 @@ tbody tr:hover {
     opacity: 0.9;
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
     header {
         flex-direction: column;
