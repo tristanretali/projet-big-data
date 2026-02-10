@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Analytics E-commerce</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+    <!-- Section de connexion -->
+    <div id="loginSection" class="login-container">
+        <div class="login-card">
+            <h1>🔐 Connexion</h1>
+            <p>Accédez au tableau de bord analytique</p>
+            <input type="text" id="username" placeholder="Nom d'utilisateur" value="admin">
+            <input type="password" id="password" placeholder="Mot de passe" value="admin">
+            <button onclick="login()">Se connecter</button>
+            <div id="loginStatus"></div>
+        </div>
+    </div>
+
+    <!-- Dashboard principal -->
+    <div id="dashboardSection" style="display: none;">
+        <!-- En-tête -->
+        <header>
+            <h1>📊 Dashboard Analytics E-commerce</h1>
+            <div class="user-info">
+                <span id="userName"></span>
+                <button onclick="logout()" class="btn-logout">Déconnexion</button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="scrollToSection('overview')">Vue d'ensemble</button>
+            <button class="tab-btn" onclick="scrollToSection('countries')">Pays</button>
+            <button class="tab-btn" onclick="scrollToSection('products')">Produits</button>
+            <button class="tab-btn" onclick="scrollToSection('returns')">Retours</button>
+            <button class="tab-btn" onclick="scrollToSection('period')">Périodes</button>
+        </nav>
+
+        <!-- ONGLET 1: Vue d'ensemble -->
+        <div id="overview-tab" class="section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="totalCountries">-</h3>
+                    <p>Pays actifs</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalProducts">-</h3>
+                    <p>Produits</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalReturns">-</h3>
+                    <p>Produits retournés</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalDays">-</h3>
+                    <p>Jours d'activité</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ONGLET 2: Ventes par pays -->
+        <div id="countries-tab" class="section">
+            <div class="chart-container">
+                <h2>🌍 Ventes par Pays (Top 15)</h2>
+                <canvas id="countriesChart"></canvas>
+            </div>
+            <div class="table-container">
+                <h3>Détails des pays</h3>
+                <table id="countriesTable">
+                    <thead>
+                        <tr>
+                            <th>Pays</th>
+                            <th>CA Total (€)</th>
+                            <th>Commandes</th>
+                            <th>Quantité</th>
+                        </tr>
+                    </thead>
+                    <tbody id="countriesTableBody"></tbody>
+                </table>
+                <div id="countriesPagination" class="pagination"></div>
+            </div>
+        </div>
+
+        <!-- ONGLET 3: Top produits -->
+        <div id="products-tab" class="section">
+            <div class="chart-container">
+                <h2>📦 Top 15 Produits par Revenus</h2>
+                <canvas id="productsChart"></canvas>
+            </div>
+            <div class="table-container">
+                <h3>Détails des produits</h3>
+                <table id="productsTable">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Description</th>
+                            <th>Revenus (€)</th>
+                            <th>Quantité vendue</th>
+                            <th>Nombre de ventes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody"></tbody>
+                </table>
+                <div id="productsPagination" class="pagination"></div>
+            </div>
+        </div>
+
+        <!-- ONGLET 4: Produits retournés -->
+        <div id="returns-tab" class="section">
+            <div class="chart-container">
+                <h2>⚠️ Top 15 Produits Retournés (Pertes)</h2>
+                <canvas id="returnsChart"></canvas>
+            </div>
+            <div class="table-container">
+                <h3>Détails des retours</h3>
+                <table id="returnsTable">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Description</th>
+                            <th>Quantité retournée</th>
+                            <th>Nombre de retours</th>
+                            <th>Perte totale (€)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="returnsTableBody"></tbody>
+                </table>
+                <div id="returnsPagination" class="pagination"></div>
+            </div>
+        </div>
+
+        <!-- ONGLET 5: Ventes par période -->
+        <div id="period-tab" class="section">
+            <div class="filters">
+                <label>Année:
+                    <select id="filterYear">
+                        <option value="">Toutes</option>
+                        <option value="2009">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                    </select>
+                </label>
+                <label>Mois:
+                    <select id="filterMonth">
+                        <option value="">Tous</option>
+                        <option value="1">Janvier</option>
+                        <option value="2">Février</option>
+                        <option value="3">Mars</option>
+                        <option value="4">Avril</option>
+                        <option value="5">Mai</option>
+                        <option value="6">Juin</option>
+                        <option value="7">Juillet</option>
+                        <option value="8">Août</option>
+                        <option value="9">Septembre</option>
+                        <option value="10">Octobre</option>
+                        <option value="11">Novembre</option>
+                        <option value="12">Décembre</option>
+                    </select>
+                </label>
+                <button onclick="applyPeriodFilters()">Appliquer</button>
+                <button onclick="clearPeriodFilters()">Réinitialiser</button>
+            </div>
+            <div class="chart-container">
+                <h2>📅 Ventes par Période (Top 30 jours)</h2>
+                <canvas id="periodChart"></canvas>
+            </div>
+            <div class="table-container">
+                <h3>Détails par période</h3>
+                <table id="periodTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>CA (€)</th>
+                            <th>Commandes</th>
+                            <th>Quantité</th>
+                        </tr>
+                    </thead>
+                    <tbody id="periodTableBody"></tbody>
+                </table>
+                <div id="periodPagination" class="pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

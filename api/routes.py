@@ -6,7 +6,6 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
-
 class LoginRequest(BaseModel):
     username: str
     password: str
@@ -26,7 +25,6 @@ def sales_per_country(
     page_size: int = Query(10, ge=1, le=100),
     token: dict = Depends(verify_token),
 ):
-    # MODIFICATION: Utilisation du context manager avec 'with'
     with get_db_connection() as conn:
         cursor = conn.cursor()
 
@@ -76,7 +74,7 @@ def top_products(
         cursor.execute(query, (page_size, offset))
         data = cursor.fetchall()
 
-        cursor.execute("SELECT COUNT(*) as total FROM return_products")
+        cursor.execute("SELECT COUNT(*) as total FROM top_products")
         total = cursor.fetchone()["total"]
 
         cursor.close()
@@ -90,7 +88,6 @@ def return_products(
     page_size: int = Query(10, ge=1, le=100),
     token: dict = Depends(verify_token),
 ):
-    # MODIFICATION: Utilisation du context manager avec 'with'
     with get_db_connection() as conn:
         cursor = conn.cursor()
 
@@ -99,7 +96,7 @@ def return_products(
         query = """
             SELECT "StockCode", "Description", total_returned, number_of_returns, total_loss
             FROM return_products
-            ORDER BY total_loss DESC
+            ORDER BY total_loss ASC
             LIMIT %s OFFSET %s
         """
 
@@ -114,45 +111,6 @@ def return_products(
         return {"total": total, "page": page, "page_size": page_size, "data": data}
 
 
-# @router.get("/periodic")
-# def periodic_sales(
-#     page: int = Query(1, ge=1),
-#     page_size: int = Query(10, ge=1, le=100),
-#     period: str = Query("month", regex="^(day|month|year)$"),
-#     token: dict = Depends(verify_token),
-# ):
-
-#     # MODIFICATION: Utilisation du context manager avec 'with'
-#     with get_db_connection() as conn:
-
-#         cursor = conn.cursor()
-
-#         offset = (page - 1) * page_size
-
-#         period_column = {"day": "day", "month": "month", "year": "year"}.get(
-#             period, "month"
-#         )
-
-#         query = f"""
-#             SELECT "{period_column}", total_sales, number_of_orders
-#             FROM sales_by_period
-#             WHERE "{period_column}" IS NOT NULL
-#             ORDER BY "{period_column}" DESC
-#             LIMIT %s OFFSET %s
-#         """
-
-#         cursor.execute(query, (page_size, offset))
-#         data = cursor.fetchall()
-
-#         cursor.execute(
-#             f'SELECT COUNT(*) as total FROM sales_by_period WHERE "{period_column}" IS NOT NULL'
-#         )
-#         total = cursor.fetchone()["total"]
-
-#         cursor.close()
-
-
-#         return {"total": total, "page": page, "page_size": page_size, "data": data}
 @router.get("/periodic")
 def periodic_sales(
     page: int = Query(1, ge=1),
